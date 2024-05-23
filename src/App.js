@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import AddTodo from "./Component/AddTodo";
+import Menubar from "./Component/Menubar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Dashboard from "./Component/Dashboard";
+import TodoList from "./Component/TodoList";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Menubar />
+      <Routes>
+        <Route path="/" Component={Dashboard} />
+        <Route path="/add-todo" Component={AddTodo} />
+        <Route path="/todo-list" Component={TodoList} />
+      </Routes>
+    </Router>
   );
 }
 
