@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addTodo, updateTodo } from "../app/todo/todosSlice";
 import { v4 as uuidv4 } from "uuid";
 import ToastMesage from "./ToastMesage";
+import Select from 'react-select'
 
 export default function AddTodo(props) {
   const dispatch = useDispatch();
@@ -13,10 +14,17 @@ export default function AddTodo(props) {
     title: "",
     dueDate: "",
     description: "",
+    priority: ""
   });
   const [showToast, setShowToast] = useState(false);
   const [validated, setValidated] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+
+  const options = [
+    { value: 'high', label: 'High' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'low', label: 'Low' }
+  ]
 
   // Set form data into variable as key value pair
   const handleFormData = (e) => {
@@ -27,6 +35,13 @@ export default function AddTodo(props) {
     }));
   };
 
+  const handleSelectChange = (e) => {
+    console.log(e.value);
+    setTodoDetail((preview) => ({
+      ...preview,
+      priority: e.value,
+    }));
+  }
   //Clear Form data
   const clearData = () => {
     setTodoDetail({
@@ -34,6 +49,7 @@ export default function AddTodo(props) {
       title: "",
       dueDate: "",
       description: "",
+      priority: ""
     });
     setValidated(false);
   };
@@ -66,7 +82,7 @@ export default function AddTodo(props) {
       setTodoDetail(props.item);
       setIsEdit(true);
     }
-  }, []);
+  }, [props]);
   return (
     <div className="container add-todo">
       <Form noValidate validated={validated} onSubmit={saveTodoList}>
@@ -98,6 +114,10 @@ export default function AddTodo(props) {
             <Form.Control.Feedback type="invalid">
               Please select due date
             </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} controlId="description">
+            <Form.Label>priority</Form.Label>
+            <Select options={options} onChange={handleSelectChange} />
           </Form.Group>
         </Row>
         <Form.Group className="mb-3 my-2" controlId="description">

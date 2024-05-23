@@ -1,14 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import todos from "../../Data/todos";
 const todosSlice = createSlice({
     name: 'todos',
     initialState: {
-        todos: [{
-            id: 'sS4fbR5K5H',
-            title: 'first',
-            description: 'test',
-            dueDate: '2024-05-23'
-        }],
+        todos: todos,
     },
     reducers: {
         addTodo(state, action) {
@@ -16,7 +11,8 @@ const todosSlice = createSlice({
         },
 
         deleteTodo(state, action) {
-            state.todos = state.todos.filter((item) => item.id !== action.payload)
+            let index = state.todos.findIndex((item) => item.id === action.payload.id);
+            state.todos.splice(index, 1);
         },
 
         updateTodo(state, action) {
@@ -24,9 +20,15 @@ const todosSlice = createSlice({
             if (index !== -1) {
                 state.todos[index] = action.payload;
             }
+        },
+
+        sortOrder(state, action) {
+            let key = action.payload;
+            console.log("call");
+            state.todos.sort((a, b) => a[key].localeCompare(b[key], 'en', { sensitivity: 'accent' }))
         }
     }
 })
 
-export const { addTodo, deleteTodo, updateTodo } = todosSlice.actions;
+export const { addTodo, deleteTodo, updateTodo, sortOrder } = todosSlice.actions;
 export default todosSlice.reducer;
