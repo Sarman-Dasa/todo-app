@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function Menubar() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary mb-2">
       <Container>
         <Link to="/" className="navbar-brand">
           <img
