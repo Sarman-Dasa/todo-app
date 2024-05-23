@@ -1,43 +1,78 @@
 .add-todo {
-    background-color: aliceblue;
-    border: 2px solid #b6f2e6;
-    border-radius: 10px;
-    margin-top: 10px;
-    padding: 20px 10px;
+  background-color: aliceblue;
+  border: 2px solid #b6f2e6;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 20px 10px;
 
-    .heanding {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 600;
-        color: #f5f6f6;
-        background-color: #7f8382;
-        padding: 10px 20px;
-    }
+  .heanding {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f5f6f6;
+    background-color: #7f8382;
+    padding: 10px 20px;
+  }
 
-    .saveBtn {
-        margin-right: 10px;
-    }
-    .clearBtn {
-        background-color: #c82333;
-        border: 1px solid #dc3545;
-    }
-}  
+  .saveBtn {
+    margin-right: 10px;
+  }
+
+  .clearBtn {
+    background-color: #c82333;
+    border: 1px solid #dc3545;
+  }
+}
 
 .todo-list {
-    margin: 10px 20px;
-    list-style-type: none;
-    padding: 0;
+  margin: 10px 20px;
+  list-style-type: none;
+  padding: 0;
+
+  .filter {
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #7f8382;
+    padding: 10px 20px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: space-between;
+
     .heanding {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 600;
-        color: #f5f6f6;
-        background-color: #7f8382;
-        padding: 10px 20px;
-        margin-left:30px
+      text-align: start;
+      color: #f5f6f6;
     }
-    .todo-item {
-    background-color: #fff;
+
+    label:nth-of-type(1) {
+      color: #f5f6f6;
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+    label:nth-of-type(2) {
+      color: #f5f6f6;
+      margin: 5px 10px 0px 5px;
+    }
+
+    .sort-by {
+      min-width: 200px;
+    }
+  }
+
+
+
+  .high {
+    background-color: #e199a0;
+  }
+
+  .low {
+    background-color: #dee29b;
+  }
+
+  .medium {
+    background-color: #b6f2e6;
+  }
+
+  .todo-item {
     padding: 10px 20px;
     margin: 10px 0;
     border-radius: 4px;
@@ -46,50 +81,59 @@
     display: flex;
     // justify-content: space-between;
     // align-items: start;
-    
-    .title,.due-date {
-        min-width: 20%;
+
+    .title,
+    .due-date {
+      min-width: 20%;
     }
+
     .decription {
-        min-width: 50%;
+      min-width: 45%;
     }
+
+    .priority {
+      min-width: 5%;
+      text-align: center;
+      margin-right: 5px;
+    }
+
     .completed {
-        text-decoration: line-through;
-        color: #888;
-      }
-      
-    &:nth-child(odd) {
-        background-color: #e9e9e9;
-      }
-    
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    // &:nth-child(odd) {
+    //     background-color: #e9e9e9;
+    //   }
+
     .action {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        min-width: 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      min-width: 10%;
     }
 
     .deleteBtn {
-        padding: 5px 10px;
-        font-size: 14px;
-        border: none;
-        border-radius: 4px;
-        background-color: #dc3545;
-        color: white;
-        cursor: pointer;
-      }
-      
-      .deleteBtn:hover {
-        background-color: #c82333;
-      }
-
-      .editBtn {
-        @extend .deleteBtn;
-        background-color: #082902;
-      }
-      
-      .edit:hover {
-        background-color: #082902;
-      }
+      padding: 5px 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      background-color: #dc3545;
+      color: white;
+      cursor: pointer;
     }
+
+    .deleteBtn:hover {
+      background-color: #c82333;
+    }
+
+    .editBtn {
+      @extend .deleteBtn;
+      background-color: #082902;
+    }
+
+    .edit:hover {
+      background-color: #082902;
+    }
+  }
 }
