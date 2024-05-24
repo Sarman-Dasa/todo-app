@@ -36,7 +36,6 @@ export default function AddTodo(props) {
   };
 
   const handleSelectChange = (e) => {
-    console.log(e.value);
     setTodoDetail((preview) => ({
       ...preview,
       priority: e.value,

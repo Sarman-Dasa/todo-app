@@ -24,7 +24,6 @@ const todosSlice = createSlice({
 
         sortOrder(state, action) {
             let key = action.payload;
-            console.log("call");
             state.todos.sort((a, b) => a[key].localeCompare(b[key], 'en', { sensitivity: 'accent' }))
         }
     }

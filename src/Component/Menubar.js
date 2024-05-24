@@ -29,6 +29,12 @@ function Menubar() {
             <Link to="todo-list" className="nav-link">
               Todo List
             </Link>
+            <Link to="add-image" className="nav-link">
+              Add Images
+            </Link>
+            <Link to="gallery" className="nav-link">
+              Gallery
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
