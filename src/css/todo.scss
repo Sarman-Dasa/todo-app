@@ -38,11 +38,15 @@
     display: flex;
     justify-content: space-between;
 
+    .left-flot {
+      display: flex;
+    }
     .heanding {
       text-align: start;
       color: #f5f6f6;
+      margin-top: 10px;
+      margin-left: 10px;
     }
-
     label:nth-of-type(1) {
       color: #f5f6f6;
       margin-right: 10px;
@@ -55,6 +59,18 @@
 
     .sort-by {
       min-width: 200px;
+    }
+    .form-select {
+      margin-left: 10px;
+      height: 40px;
+      max-width:60px
+    }
+
+    .backBtn {
+      margin: 0px;
+      padding: 0px 20px;
+      background-color: #446af4;
+      font-size: 18px;
     }
   }
 
@@ -121,6 +137,7 @@
       background-color: #dc3545;
       color: white;
       cursor: pointer;
+      margin-top:0px;
     }
 
     .deleteBtn:hover {
@@ -132,7 +149,7 @@
       background-color: #082902;
     }
 
-    .edit:hover {
+    .editBtn:hover {
       background-color: #082902;
     }
   }

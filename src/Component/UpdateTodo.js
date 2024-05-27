@@ -21,7 +21,7 @@ function UpdatedTodo(props) {
         Launch demo modal
       </Button> */}
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Edit Todo</Modal.Title>
         </Modal.Header>

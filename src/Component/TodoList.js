@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../css/todo.css";
 import { deleteTodo, sortOrder } from "../app/todo/todosSlice";
@@ -6,6 +6,10 @@ import UpdatedTodo from "./UpdateTodo";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Select from "react-select";
+import Pagination from "./MyPagination";
+import { Form } from "react-bootstrap";
+import { useSearchParams, useNavigate } from "react-router-dom";
+
 const MySwal = withReactContent(Swal);
 
 export default function TodoList() {
@@ -13,16 +17,14 @@ export default function TodoList() {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const [editItem, setEditItem] = useState();
-  const [filterValue, setFilterValue] = useState(null);
-
-  //
-  const todoItemList = useMemo(() => {
-    let newFilterList = filterValue
-      ? todoList.filter((item) => item.priority === filterValue.value)
-      : todoList;
-    return newFilterList;
-  }, [filterValue, todoList]);
-
+  const [filterValue, setFilterValue] = useState();
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(todoList.length);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  let priority = searchParams.get("priority");
+  const [isBackBtnShow, setIsBackBtnShow] = useState(false);
   // Priority option array
   const options = [
     { value: "high", label: "High" },
@@ -37,6 +39,7 @@ export default function TodoList() {
     { value: "priority", label: "Priority" },
   ];
 
+  const perPageOption = [5, 10, 15, 20];
   const deleteItem = (id) => {
     dispatch(deleteTodo(id));
     MySwal.fire("Deleted!", "", "success");
@@ -67,6 +70,20 @@ export default function TodoList() {
     });
   };
 
+  // Set Current page value
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Filter todolist priority wise
+  const todoItemList = useMemo(() => {
+    let newFilterList = filterValue
+      ? todoList.filter((item) => item.priority === filterValue.value)
+      : todoList;
+    setTotalCount(newFilterList.length);
+    return newFilterList;
+  }, [filterValue, todoList]);
+
   // Sort Todo List
   const handlerSorBy = (e) => {
     let sortField = e ? e.value : "description";
@@ -76,15 +93,34 @@ export default function TodoList() {
   // Filter Todo List
   const handlerFilter = (e) => {
     setFilterValue(e);
+    setCurrentPage(1);
   };
-  if (!todoList) {
+
+  useEffect(() => {
+    setIsBackBtnShow(priority ? true : false);
+    let priorityValue = options.find((option) => option.value === priority);
+    setFilterValue(priorityValue);
+    return () => {
+      console.log("call de");
+      setIsBackBtnShow(false);
+    };
+  }, [priority]);
+
+  if (!todoItemList) {
     return;
   }
   return (
     <>
       <div className="todo-list">
         <div className="filter">
-          <p className="heanding">Todo List</p>
+          <div className="left-flot">
+            {isBackBtnShow && (
+              <button className="backBtn" onClick={() => navigate(-1)}>
+                back
+              </button>
+            )}
+            <p className="heanding">Todo List</p>
+          </div>
           <div className="d-flex justify-content-between">
             <label>Sort By</label>
             <Select
@@ -101,34 +137,60 @@ export default function TodoList() {
               isClearable
               onChange={handlerFilter}
             />
+            {/* <Form.Select size="sm" onChange={(e)=>setPerPage(e.target.value)}>
+              <option value={5} selected>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+            </Form.Select> */}
+
+            <Form.Select
+              size="sm"
+              onChange={(e) => setPerPage(e.target.value)}
+              defaultValue={perPageOption[0]}
+            >
+              {perPageOption.map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Form.Select>
           </div>
         </div>
         <ul>
-          {todoItemList.map((item, index) => {
-            return (
-              <li key={index} className={`todo-item ${item.priority}`}>
-                <span className="title">{item.title}</span>
-                <span className="due-date">{item.dueDate}</span>
-                <span className="decription">{item.description}</span>
-                <span className={`priority`}>{item.priority}</span>
-                <span className="action">
-                  <button
-                    className="deleteBtn"
-                    onClick={() => deleteConfirmation(item.id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="editBtn"
-                    onClick={() => openEditModal(item)}
-                  >
-                    Edit
-                  </button>
-                </span>
-              </li>
-            );
-          })}
+          {todoItemList
+            .slice((currentPage - 1) * perPage, currentPage * perPage)
+            .map((item, index) => {
+              return (
+                <li key={index} className={`todo-item ${item.priority}`}>
+                  <span className="title">{item.title}</span>
+                  <span className="due-date">{item.dueDate}</span>
+                  <span className="decription">{item.description}</span>
+                  <span className={`priority`}>{item.priority}</span>
+                  <span className="action">
+                    <button
+                      className="deleteBtn"
+                      onClick={() => deleteConfirmation(item.id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="editBtn"
+                      onClick={() => openEditModal(item)}
+                    >
+                      Edit
+                    </button>
+                  </span>
+                </li>
+              );
+            })}
         </ul>
+        <Pagination
+          totalCount={totalCount}
+          perPage={perPage}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
       </div>
       {isEdit && (
         <UpdatedTodo

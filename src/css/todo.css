@@ -35,9 +35,14 @@
   display: flex;
   justify-content: space-between;
 }
+.todo-list .filter .left-flot {
+  display: flex;
+}
 .todo-list .filter .heanding {
   text-align: start;
   color: #f5f6f6;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 .todo-list .filter label:nth-of-type(1) {
   color: #f5f6f6;
@@ -50,6 +55,17 @@
 }
 .todo-list .filter .sort-by {
   min-width: 200px;
+}
+.todo-list .filter .form-select {
+  margin-left: 10px;
+  height: 40px;
+  max-width: 60px;
+}
+.todo-list .filter .backBtn {
+  margin: 0px;
+  padding: 0px 20px;
+  background-color: #446af4;
+  font-size: 18px;
 }
 .todo-list .high {
   background-color: #e199a0;
@@ -98,6 +114,7 @@
   background-color: #dc3545;
   color: white;
   cursor: pointer;
+  margin-top: 0px;
 }
 .todo-list .todo-item .deleteBtn:hover, .todo-list .todo-item .editBtn:hover {
   background-color: #c82333;
@@ -105,6 +122,6 @@
 .todo-list .todo-item .editBtn {
   background-color: #082902;
 }
-.todo-list .todo-item .edit:hover {
+.todo-list .todo-item .editBtn:hover {
   background-color: #082902;
 }/*# sourceMappingURL=todo.css.map */
