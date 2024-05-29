@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useNavigate, createSearchParams } from "react-router-dom";
+import ProductPage from "./ProductPage";
 
 export default function Dashboard() {
   const todoList = useSelector((state) => state.todos.todos);
   const [todoCount, setTodoCount] = useState({ high: 0, medium: 0, low: 0 });
   const navigate = useNavigate();
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     // when component mount to call getPriorityWiseCount() funcation
@@ -36,8 +38,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="container">
-      <Card style={{ width: "18rem" }}>
+    <div className="container d-flex justify-content-between">
+      <Card style={{ width: "18rem"}}>
         <Card.Body>
           <Card.Title>Todo List</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
@@ -81,6 +83,22 @@ export default function Dashboard() {
             List
           </Link>
         </Card.Body>
+      </Card>
+
+
+    {/* UseCallback & memo hooks example  */}
+      <Card style={{ width: "50rem",padding:"10px"  }} className="call-back">
+        <label>
+          <input
+            type="checkbox"
+            checked={isDark}
+            onChange={(e) => setIsDark(e.target.checked)}
+          />
+          Dark mode
+        </label>
+        <hr />
+
+        <ProductPage referrerId="wizard_of_oz" productId={123} theme={isDark ? 'dark' : 'light'} />
       </Card>
     </div>
   );

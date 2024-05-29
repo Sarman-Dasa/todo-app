@@ -3,6 +3,7 @@ import { Card, Container, Form, Row } from "react-bootstrap";
 import "../css/fileUpload.css";
 import uploadImage from "../images/file-upload.png";
 import ToastMesage from "./ToastMesage";
+import { v4 as uuid } from "uuid";
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB limit
 
 const FileUpload = () => {
@@ -33,31 +34,47 @@ const FileUpload = () => {
           return false;
         }
         return true;
-      });
+      }).map((file) => ({
+        id: uuid(),
+        url:URL.createObjectURL(file),
+        image: file // Include the actual file object if needed
+      }));
       setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
     }
   };
 
   const handleSaveButtonClick = () => {
-    selectedFiles.forEach((file, index) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const fileData = e.target.result;
-        const fileName = file.name;
-        const files = JSON.stringify({
-          url: fileData,
-          name: fileName,
-        });
-        localStorage.setItem(`my-file-${index}-${fileName}`, files);
-      };
-      reader.readAsDataURL(file);
-    });
+    if (selectedFiles && selectedFiles.length) {
+      selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const fileData = e.target.result;
+          const fileName = file.name;
+          const files = JSON.stringify({
+            url: fileData,
+            name: fileName,
+          });
+          localStorage.setItem(`my-file-${index}-${fileName}`, files);
+        };
+        reader.readAsDataURL(file);
+      });
 
-    setToastMessage('Image(s) Uploaded successfully');
-    setShowToast(true)
-    // setTimeout(() => {
-    //   setSelectedFiles([]);
-    // }, 200);
+      setToastMessage("Image(s) Uploaded successfully");
+      setShowToast(true);
+      // setTimeout(() => {
+      //   setSelectedFiles([]);
+      // }, 200);
+    }
+    else {
+      setToastMessage("Please upload image !");
+      setShowToast(true);
+    }
+  };
+
+  //Remove File 
+  const removeImage = (id) => {
+    let file = selectedFiles.filter((item) => item.id !== id);
+    setSelectedFiles(file);
   };
 
   return (
@@ -86,15 +103,19 @@ const FileUpload = () => {
         {selectedFiles.map((file, index) => (
           <div key={index} className="col-md-3 my-2">
             <Card style={{ width: "18rem", height: "100%" }}>
-              {file.id}
               <Card.Img
                 variant="bottom"
-                src={URL.createObjectURL(file)}
+                src={file.url}
                 style={{ height: "200px", objectFit: "contain" }}
               />
               <Card.Body>
-                <Card.Title>{file.name}</Card.Title>
+                <Card.Title>{file.image.name}</Card.Title>
               </Card.Body>
+              <Card.Footer className="text-muted">
+                <button onClick={() => removeImage(file.id)}>
+                  Delete
+                </button>
+              </Card.Footer>
             </Card>
           </div>
         ))}
