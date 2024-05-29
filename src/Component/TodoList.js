@@ -101,7 +101,6 @@ export default function TodoList() {
     let priorityValue = options.find((option) => option.value === priority);
     setFilterValue(priorityValue);
     return () => {
-      console.log("call de");
       setIsBackBtnShow(false);
     };
   }, [priority]);

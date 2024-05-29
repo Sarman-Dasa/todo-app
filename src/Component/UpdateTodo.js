@@ -5,7 +5,6 @@ import AddTodo from "./AddTodo";
 
 function UpdatedTodo(props) {
   const [show, setShow] = useState(props.isShow);
-  console.log(props.isShow);
   const handleClose = () => {
     setShow(false);
     props.onclose();

@@ -3,10 +3,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Applogo from "../images/todo.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Menubar() {
+
+  const isFullLayout = useSelector((state) => state.app.isFullLayout)
   return (
-    <Navbar expand="lg" className="bg-body-tertiary mb-2">
+    !isFullLayout && <Navbar expand="lg" className="bg-body-tertiary mb-2">
       <Container>
         <Link to="/" className="navbar-brand">
           <img
