@@ -38,6 +38,9 @@ function Menubar() {
             <Link to="gallery" className="nav-link">
               Gallery
             </Link>
+            <Link to="news" className="nav-link">
+              News
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
